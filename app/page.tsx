@@ -5,24 +5,24 @@ import { accountsNoIndex, accountsWithIndex } from '@/lib/database/schema';
 import { count, desc } from 'drizzle-orm';
 import { performance } from 'perf_hooks';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
 	let startTime = performance.now();
 	const first25NoIndex = await db.query.accountsNoIndex.findMany({
 		orderBy: [desc(accountsNoIndex.answeredThreads)],
-		limit: 25,
+		limit: 10,
 	});
 	let endTime = performance.now();
-	const noIndexPerformanceTime = (endTime - startTime).toFixed(2);
+	const noIndexPerformanceTime = (endTime - startTime).toFixed(0);
 
 	startTime = performance.now();
 	const first25WithIndex = await db.query.accountsWithIndex.findMany({
 		orderBy: [desc(accountsWithIndex.answeredThreads)],
-		limit: 25,
+		limit: 10,
 	});
 	endTime = performance.now();
-	const withIndexPerformanceTime = (endTime - startTime).toFixed(2);
+	const withIndexPerformanceTime = (endTime - startTime).toFixed(0);
 
 	const countedEntries = await db.select({ count: count() }).from(accountsNoIndex);
 

@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 export default function ActionButtons() {
 	const [loading, setIsLoading] = useState(false);
+	const [seedingDone, setIsSeedingDone] = useState(false);
 	const [lastInsertTiming, setLastInsertTiming] = useState<{
 		insertNoIndexTime?: string;
 		insertWithIndexTime?: string;
@@ -29,10 +30,13 @@ export default function ActionButtons() {
 					onClick={async () => {
 						setIsLoading(true);
 						await addAllToDB();
-						window.location.reload();
+						setTimeout(() => {
+							setIsSeedingDone(true);
+						}, 500);
 					}}>
 					Seed
 				</Button>
+				{seedingDone && <p className={'text-red-500 font-bold'}>RELOAD the page now!</p>}
 			</div>
 			<div>
 				<h2 className={'text-xl font-medium'}>Last Insert took:</h2>

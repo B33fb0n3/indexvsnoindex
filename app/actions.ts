@@ -10,7 +10,7 @@ import { performance } from 'perf_hooks';
 export const addAllToDB = async () => {
 	const [] = await Promise.all([db.delete(accountsNoIndex), db.delete(accountsWithIndex)]);
 
-	const newEntries = 10000;
+	const newEntries = 7000;
 
 	const noIndexUser: InferInsertModel<typeof accountsNoIndex>[] = [];
 	const withIndexUser: InferInsertModel<typeof accountsWithIndex>[] = [];

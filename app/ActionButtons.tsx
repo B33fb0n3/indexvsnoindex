@@ -1,30 +1,44 @@
-'use client'
+'use client';
 
-import {Button} from "@/components/ui/button";
-import {addAllToDB, addOne} from "@/app/actions";
-import {useState} from "react";
+import { addAllToDB, addOne } from '@/app/actions';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 
 export default function ActionButtons() {
-    const [lastInsertTiming, setLastInsertTiming] = useState<{
-        insertNoIndexTime?: string
-        insertWithIndexTime?: string
-    }>({});
+	const [loading, setIsLoading] = useState(false);
+	const [lastInsertTiming, setLastInsertTiming] = useState<{
+		insertNoIndexTime?: string;
+		insertWithIndexTime?: string;
+	}>({});
 
-    return (
-        <div>
-            <div>
-
-            <Button onClick={async () => {
-                const result = await addOne();
-                setLastInsertTiming(result);
-            }}>Add one to random</Button>
-            <Button onClick={() => addAllToDB()}>Seed</Button>
-            </div>
-            <div>
-                <h2 className={"text-xl font-medium"}>Last Insert took:</h2>
-                <p>No index: {lastInsertTiming.insertNoIndexTime ?? "-"}ms</p>
-                <p>With index: {lastInsertTiming.insertWithIndexTime ?? "-"}ms</p>
-            </div>
-        </div>
-    )
+	return (
+		<div>
+			<div>
+				<Button
+					disabled={loading}
+					onClick={async () => {
+						setIsLoading(true);
+						const result = await addOne();
+						setLastInsertTiming(result);
+						setIsLoading(false);
+					}}>
+					Add one to random
+				</Button>
+				<Button
+					disabled={loading}
+					onClick={async () => {
+						setIsLoading(true);
+						await addAllToDB();
+						window.location.reload();
+					}}>
+					Seed
+				</Button>
+			</div>
+			<div>
+				<h2 className={'text-xl font-medium'}>Last Insert took:</h2>
+				<p>No index: {lastInsertTiming.insertNoIndexTime ?? '-'}ms</p>
+				<p>With index: {lastInsertTiming.insertWithIndexTime ?? '-'}ms</p>
+			</div>
+		</div>
+	);
 }

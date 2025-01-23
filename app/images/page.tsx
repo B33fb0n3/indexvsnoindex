@@ -3,6 +3,8 @@ import { ImageComparison } from './ImageComparison';
 
 type ImagesPageProps = {};
 
+export const dynamic = 'force-dynamic';
+
 export default function ImagesPage({}: ImagesPageProps) {
 	const paths = ['/images/Handwerk_technisch.png'];
 

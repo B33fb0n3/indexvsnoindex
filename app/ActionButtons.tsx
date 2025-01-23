@@ -36,7 +36,11 @@ export default function ActionButtons() {
 					}}>
 					Seed
 				</Button>
-				{seedingDone && <p className={'text-red-500 font-bold'}>RELOAD the page now!</p>}
+				{!seedingDone ? (
+					loading && <p className={'text-red-500 font-bold'}>WAIT!</p>
+				) : (
+					<p className={'text-red-500 font-bold'}>RELOAD the page now!</p>
+				)}
 			</div>
 			<div>
 				<h2 className={'text-xl font-medium'}>Last Insert took:</h2>
